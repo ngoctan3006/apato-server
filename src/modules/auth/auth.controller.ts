@@ -6,7 +6,6 @@ import { LoginResponse, LoginInput } from './dto/login.dto';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-
   @Post('register')
   async register(@Body() input: CreateUserInput): Promise<LoginResponse> {
     return await this.authService.register(input);

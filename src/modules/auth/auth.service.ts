@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { LoginResponse, LoginInput, UserInfo } from './dto/login.dto';
+import { LoginResponse, LoginInput } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -46,7 +46,10 @@ export class AuthService {
     return {
       access_token,
       refresh_token,
-      user_info: new_user as UserInfo,
+      user_info: {
+        email: new_user.email,
+        name: new_user.name,
+      },
     };
   }
 
@@ -67,7 +70,10 @@ export class AuthService {
     return {
       access_token,
       refresh_token,
-      user_info: user as UserInfo,
+      user_info: {
+        email: user.email,
+        name: user.name,
+      },
     };
   }
 
