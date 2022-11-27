@@ -19,6 +19,6 @@ export class PostsController {
 
   @Get(':id')
   async getPostInfo(@Param('id') post_id: number): Promise<apato> {
-    return await this.postsService.getPostInfo(post_id);
+    return await this.postsService.getPostInfo(+post_id);
   }
 }
