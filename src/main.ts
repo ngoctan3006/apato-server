@@ -10,6 +10,6 @@ async function bootstrap() {
   const port = config.get<number>('port');
   app.useGlobalPipes(new ValidationPipe());
   app.use(cors());
-  await app.listen(port);
+  await app.listen(4000);
 }
 bootstrap();
