@@ -1,3 +1,4 @@
+import { ROLE } from '@prisma/client';
 import {
   IsEmail,
   IsNotEmpty,
@@ -27,4 +28,5 @@ export class LoginResponse {
 export class UserInfo {
   name: string;
   email: string;
+  role: ROLE;
 }

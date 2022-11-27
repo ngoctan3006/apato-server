@@ -49,6 +49,7 @@ export class AuthService {
       user_info: {
         email: new_user.email,
         name: new_user.name,
+        role: new_user.role,
       },
     };
   }
@@ -73,6 +74,7 @@ export class AuthService {
       user_info: {
         email: user.email,
         name: user.name,
+        role: user.role,
       },
     };
   }
