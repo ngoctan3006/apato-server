@@ -29,4 +29,6 @@ export class UserInfo {
   name: string;
   email: string;
   role: ROLE;
+  phone: string;
+  address: string;
 }

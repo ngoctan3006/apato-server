@@ -50,6 +50,8 @@ export class AuthService {
         email: new_user.email,
         name: new_user.name,
         role: new_user.role,
+        phone: new_user.phone,
+        address: new_user.address,
       },
     };
   }
@@ -75,6 +77,8 @@ export class AuthService {
         email: user.email,
         name: user.name,
         role: user.role,
+        phone: user.phone,
+        address: user.address,
       },
     };
   }
