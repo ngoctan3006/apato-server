@@ -39,3 +39,5 @@ package-lock.json
 
 #prisma
 /prisma/migrations/
+
+/uploads/*

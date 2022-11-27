@@ -21,6 +21,7 @@ model user {
   created_at DateTime        @default(now())
   updated_at DateTime        @updatedAt
   comments   apato_comment[]
+  apato      apato[]
 }
 
 enum ROLE {
@@ -31,14 +32,16 @@ enum ROLE {
 
 model apato {
   id           Int             @id @default(autoincrement())
+  creator      user            @relation(fields: [user_id], references: [id])
   title        String
   address      String
   image        String[]
   rating       Int?
   price        Int
   detail       String
-  total_rating Float
+  total_rating Float           @default(0)
   comments     apato_comment[]
+  user_id      Int
 }
 
 model apato_comment {
