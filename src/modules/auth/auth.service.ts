@@ -85,11 +85,11 @@ export class AuthService {
       role: user.role,
     };
     const access_token: string = await this.jwtService.sign(payload, {
-      secret: 'apato-token',
+      secret: this.config.get<string>('jwt_secret'),
       expiresIn: this.config.get<string>('jwt_access_expired'),
     });
     const refresh_token: string = await this.jwtService.sign(payload, {
-      secret: 'apato-token',
+      secret: this.config.get<string>('jwt_secret'),
       expiresIn: this.config.get<string>('jwt_refresh_expired'),
     });
     return { access_token, refresh_token };

@@ -1,0 +1,27 @@
+{
+    "version": 2,
+    "env": {
+        "DATABASE_URL": "postgres://postgres1:Fr56i3kOAkEHx8XtT08himka0tV1ZXRS@dpg-ce0agfarrk09es9nuqlg-a.singapore-postgres.render.com/apato?schema=public&sslmode=prefer",
+        "JWT_SECRET": "apato-token",
+        "JWT_ACCESS_EXPIRED": "48h",
+        "JWT_REFRESH_EXPIRED": "7d"
+    },
+    "builds": [
+        {
+            "src": "src/main.ts",
+            "use": "@vercel/node"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "src/main.ts",
+            "methods": [
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE"
+            ]
+        }
+    ]
+}
