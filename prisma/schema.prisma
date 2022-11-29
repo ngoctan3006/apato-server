@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgres://postgres1:1qWQy0tibVcRnFA8hl6N0LlxmXdLsHKp@dpg-ce1j3so2i3mkucf1cj30-a.singapore-postgres.render.com/apato_yx4s"
+  url      = "postgres://postgres1:3LyRxN1BF2409982XLUNpPdGHp60yekM@dpg-ce2sqvha6gdpj35f0es0-a.singapore-postgres.render.com/apato_m5c3"
 }
 
 model user {
@@ -36,20 +36,22 @@ model apato {
   title        String
   address      String
   image        String[]
-  rating       Int?
+  area         Float
   price        Int
   detail       String
   total_rating Float           @default(0)
   comments     apato_comment[]
   user_id      Int
+  created_at DateTime @default(now())
 }
 
 model apato_comment {
   id      Int    @id @default(autoincrement())
-  apato   apato? @relation(fields: [apatoId], references: [id])
+  apato   apato? @relation(fields: [apatoId], references: [id], onDelete: Cascade)
   apatoId Int?
   user    user?  @relation(fields: [userId], references: [id])
   userId  Int?
   comment String
   rating  Int
+  created_at DateTime @default(now())
 }

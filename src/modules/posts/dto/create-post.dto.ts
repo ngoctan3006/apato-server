@@ -1,4 +1,4 @@
-import { IsArray, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 export class CreatePostDto {
   @IsNotEmpty()
   @IsString()
@@ -8,14 +8,13 @@ export class CreatePostDto {
   @IsString()
   address: string;
 
-  @IsArray()
-  image: [string];
-
   @IsNotEmpty()
-  @IsNumber()
   price: number;
 
   @IsNotEmpty()
   @IsString()
   detail: string;
+
+  @IsNotEmpty()
+  area: number;
 }
