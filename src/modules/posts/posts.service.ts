@@ -90,6 +90,9 @@ export class PostsService {
     }
     return await this.prisma.apato.findMany({
       where: findFilter,
+      orderBy: {
+        created_at: 'desc',
+      },
       include: {
         creator: {
           select: {
