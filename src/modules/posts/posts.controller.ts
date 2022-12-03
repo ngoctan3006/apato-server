@@ -35,7 +35,7 @@ export class PostsController {
             Date.now() + '-' + Math.round(Math.random() * 1e9);
           const ext = extname(file.originalname);
           const filename = uniqueSuffix + ext;
-          callback(null, filename);
+          callback(null, filename.replace(/\\/g, '/'));
         },
       }),
     }),
