@@ -82,6 +82,7 @@ export class PostsController {
       }),
     }),
   )
+  @Auth()
   async updatePost(
     @Param('id') postId: string,
     @Body() updatePostDto: UpdatePostDto,
@@ -99,7 +100,7 @@ export class PostsController {
       filePaths,
     );
   }
-
+  @Auth()
   @Delete(':id')
   async deletePost(@CurrentUser() user: user, @Param('id') postId: string) {
     return await this.postsService.deletePost(user, +postId);
