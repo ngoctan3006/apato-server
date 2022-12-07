@@ -3,7 +3,7 @@ import { PostFilter } from './dto/post-filter.dto';
 import { PrismaService } from './../../services/prisma.service';
 import { Injectable, ForbiddenException } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
-import { apato, user, ROLE } from '@prisma/client';
+import { apato, user, ROLE, apato_comment } from '@prisma/client';
 import { CommentPost } from './dto/comment.dto';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class PostsService {
     input: CreatePostDto,
     user_id: number,
     filePaths: string[],
-  ): Promise<apato> {
+  ): Promise<apato & { creator: user }> {
     const new_post = await this.prisma.apato.create({
       data: {
         user_id,
@@ -33,16 +33,9 @@ export class PostsService {
     return new_post;
   }
 
-  async getPostInfo(post_id: number): Promise<apato> {
-    const response = await this.prisma.apato.findUnique({
-      where: {
-        id: post_id,
-      },
-      include: {
-        creator: true,
-        comments: true,
-      },
-    });
+  async getPostInfo(
+    post_id: number,
+  ): Promise<apato & { creator: user; comments: apato_comment[] }> {
     const rating = await this.prisma.apato_comment.aggregate({
       _avg: {
         rating: true,
@@ -51,11 +44,21 @@ export class PostsService {
         apatoId: post_id,
       },
     });
+
+    const response = await this.prisma.apato.update({
+      where: {
+        id: post_id,
+      },
+      data: {
+        total_rating: rating._avg.rating ? rating._avg.rating : 0,
+      },
+      include: {
+        creator: true,
+        comments: true,
+      },
+    });
     delete response.creator.password;
-    return {
-      ...response,
-      total_rating: rating._avg.rating,
-    };
+    return response;
   }
 
   async getAllPosts(filter: PostFilter): Promise<apato[]> {
@@ -176,12 +179,40 @@ export class PostsService {
   }
 
   async commentPost(userId: number, postId: number, commentPost: CommentPost) {
-    return await this.prisma.apato_comment.create({
+    await this.prisma.apato_comment.create({
       data: {
         userId,
         apatoId: postId,
         comment: commentPost.comment,
         rating: commentPost.rating,
+      },
+    });
+    const total_rating = await this.prisma.apato_comment.aggregate({
+      where: {
+        apatoId: postId,
+      },
+      _avg: {
+        rating: true,
+      },
+    });
+    return await this.prisma.apato.update({
+      where: {
+        id: postId,
+      },
+      data: {
+        total_rating: total_rating._avg.rating,
+      },
+      include: {
+        comments: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
       },
     });
   }

@@ -11,17 +11,19 @@ datasource db {
 }
 
 model user {
-  id         Int             @id @default(autoincrement())
-  name       String
-  password   String
-  email      String          @unique
-  phone      String?         @unique
-  address    String?
-  role       ROLE            @default(USER)
-  created_at DateTime        @default(now())
-  updated_at DateTime        @updatedAt
-  comments   apato_comment[]
-  apato      apato[]
+  id             Int              @id @default(autoincrement())
+  name           String
+  password       String
+  email          String           @unique
+  phone          String?          @unique
+  address        String?
+  role           ROLE             @default(USER)
+  created_at     DateTime         @default(now())
+  updated_at     DateTime         @updatedAt
+  status         Boolean          @default(true)
+  comments       apato_comment[]
+  apato          apato[]
+  report_request report_request[]
 }
 
 enum ROLE {
@@ -42,16 +44,27 @@ model apato {
   total_rating Float           @default(0)
   comments     apato_comment[]
   user_id      Int
-  created_at DateTime @default(now())
+  created_at   DateTime        @default(now())
 }
 
 model apato_comment {
-  id      Int    @id @default(autoincrement())
-  apato   apato? @relation(fields: [apatoId], references: [id], onDelete: Cascade)
-  apatoId Int?
-  user    user?  @relation(fields: [userId], references: [id])
-  userId  Int?
-  comment String
-  rating  Int
-  created_at DateTime @default(now())
+  id             Int              @id @default(autoincrement())
+  apato          apato?           @relation(fields: [apatoId], references: [id], onDelete: Cascade)
+  apatoId        Int?
+  user           user?            @relation(fields: [userId], references: [id])
+  userId         Int?
+  comment        String
+  rating         Int
+  created_at     DateTime         @default(now())
+  report_request report_request[]
+}
+
+model report_request {
+  id               Int           @id @default(autoincrement())
+  comment          apato_comment @relation(fields: [apato_comment_id], references: [id])
+  apato_comment_id Int
+  reporter         user          @relation(fields: [user_id], references: [id])
+  user_id          Int
+  checked          Boolean       @default(false)
+  created_at       DateTime      @default(now())
 }

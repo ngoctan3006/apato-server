@@ -14,7 +14,7 @@ import {
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { CurrentUser } from 'src/decorators/current-user.decorator';
-import { apato, user } from '@prisma/client';
+import { apato, user, apato_comment } from '@prisma/client';
 import { Auth } from 'src/decorators/authentication.decorator';
 import { PostFilter } from './dto/post-filter.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
@@ -44,7 +44,7 @@ export class PostsController {
     @Body() createPostDto: CreatePostDto,
     @CurrentUser() user: user,
     @UploadedFiles() files: Express.Multer.File[],
-  ): Promise<apato> {
+  ): Promise<apato & { creator: user }> {
     const filePaths = [];
     files.forEach((file) => {
       filePaths.push('localhost:4000/' + file.path);
@@ -57,7 +57,9 @@ export class PostsController {
   }
 
   @Get(':id')
-  async getPostInfo(@Param('id') post_id: number): Promise<apato> {
+  async getPostInfo(
+    @Param('id') post_id: number,
+  ): Promise<apato & { creator: user; comments: apato_comment[] }> {
     return await this.postsService.getPostInfo(+post_id);
   }
 
@@ -100,7 +102,7 @@ export class PostsController {
       filePaths,
     );
   }
-  @Auth()
+  @Auth('SELLER', 'ADMIN')
   @Delete(':id')
   async deletePost(@CurrentUser() user: user, @Param('id') postId: string) {
     return await this.postsService.deletePost(user, +postId);
