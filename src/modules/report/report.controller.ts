@@ -16,8 +16,8 @@ export class ReportController {
 
   @Auth('ADMIN')
   @Get(':id')
-  async getReportDetail(@Param('id') reportId: number) {
-    return await this.reportService.getReportDetail(reportId);
+  async getReportDetail(@Param('id') reportId: string) {
+    return await this.reportService.getReportDetail(+reportId);
   }
 
   @Auth()
