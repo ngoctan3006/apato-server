@@ -52,6 +52,7 @@ export class AuthService {
         role: new_user.role,
         phone: new_user.phone,
         address: new_user.address,
+        status: new_user.status,
       },
     };
   }
@@ -79,6 +80,7 @@ export class AuthService {
         role: user.role,
         phone: user.phone,
         address: user.address,
+        status: user.status,
       },
     };
   }
