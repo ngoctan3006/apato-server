@@ -31,4 +31,5 @@ export class UserInfo {
   role: ROLE;
   phone: string;
   address: string;
+  status: boolean;
 }
