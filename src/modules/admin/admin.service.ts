@@ -29,4 +29,15 @@ export class AdminService {
       },
     });
   }
+
+  async deleteComment(commentId: number) {
+    await this.prisma.apato_comment.update({
+      where: {
+        id: commentId,
+      },
+      data: {
+        deleted: true,
+      },
+    });
+  }
 }

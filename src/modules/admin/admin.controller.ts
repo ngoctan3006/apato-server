@@ -11,4 +11,9 @@ export class AdminController {
   async blockUser(@Param('id') userId: string) {
     return await this.adminService.blockUser(+userId);
   }
+  @Auth('ADMIN')
+  @Put('delete-comment/:id')
+  async deleteComment(@Param('id') commentId: string) {
+    return await this.adminService.deleteComment(+commentId);
+  }
 }
