@@ -1,9 +1,11 @@
+import { ROLE } from '@prisma/client';
 import { PrismaService } from 'src/services/prisma.service';
 import {
   BadRequestException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { SearchUserDto } from './dto/search-user.dto';
 
 @Injectable()
 export class AdminService {
@@ -37,6 +39,31 @@ export class AdminService {
       },
       data: {
         deleted: true,
+      },
+    });
+  }
+
+  async getAllUsers(input: SearchUserDto) {
+    const whereOption = {
+      role: { not: ROLE.ADMIN },
+    };
+    if (!!input.searchValue) {
+      whereOption['OR'] = [
+        {
+          name: { contains: input.searchValue, mode: 'insensitive' },
+        },
+        {
+          email: { contains: input.searchValue, mode: 'insensitive' },
+        },
+        {
+          phone: { contains: input.searchValue, mode: 'insensitive' },
+        },
+      ];
+    }
+    return await this.prisma.user.findMany({
+      where: whereOption,
+      orderBy: {
+        created_at: 'desc',
       },
     });
   }

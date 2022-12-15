@@ -1,7 +1,7 @@
-import { Controller, Get, Param, Put } from '@nestjs/common';
-import { async } from 'rxjs';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { Auth } from 'src/decorators/authentication.decorator';
 import { AdminService } from './admin.service';
+import { SearchUserDto } from './dto/search-user.dto';
 
 @Controller('admin')
 export class AdminController {
@@ -15,5 +15,11 @@ export class AdminController {
   @Put('delete-comment/:id')
   async deleteComment(@Param('id') commentId: string) {
     return await this.adminService.deleteComment(+commentId);
+  }
+
+  @Auth('ADMIN')
+  @Post('all-user')
+  async getAllUsers(@Body() input: SearchUserDto) {
+    return await this.adminService.getAllUsers(input);
   }
 }

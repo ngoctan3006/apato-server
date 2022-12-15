@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/services/prisma.service';
 import { hass_password } from 'src/decorators/hash-password.decorator';
 import { ROLE, user } from '@prisma/client';
+import { UpdateDto } from './dto/update-profile.dto';
 
 @Injectable()
 export class UserService {
@@ -25,5 +26,25 @@ export class UserService {
       ...new_user,
       password: input.password,
     };
+  }
+
+  async updateProfile(userId: number, updateDto: UpdateDto) {
+    const updateData = {};
+    const { name, phone, address } = updateDto;
+    if (!!name) {
+      updateData['name'] = name;
+    }
+    if (!!phone) {
+      updateData['phone'] = phone;
+    }
+    if (!!address) {
+      updateData['address'] = address;
+    }
+    return await this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: updateData,
+    });
   }
 }
