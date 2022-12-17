@@ -41,3 +41,4 @@ package-lock.json
 /prisma/migrations/
 
 /uploads/*
+yarn.lock
