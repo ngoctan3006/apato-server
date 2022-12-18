@@ -9,12 +9,12 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const config = app.select(CommonModule).get(ConfigService);
-  const port = config.get<number>('PORT') || 4000;
+  const port = config.get<number>('PORT');
   app.useGlobalPipes(new ValidationPipe());
   app.use(cors());
   app.useStaticAssets(join(__dirname, '..', 'uploads'), {
     prefix: '/uploads/',
   });
-  await app.listen(port);
+  await app.listen(process.env.PORT || port || 4000);
 }
 bootstrap();
