@@ -47,7 +47,7 @@ export class PostsController {
   ): Promise<apato & { creator: user }> {
     const filePaths = [];
     files.forEach((file) => {
-      filePaths.push('localhost:4000/' + file.path);
+      filePaths.push('https://apato-server.herokuapp.com/' + file.path);
     });
     return await this.postsService.createPost(
       createPostDto,
