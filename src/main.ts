@@ -9,7 +9,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const config = app.select(CommonModule).get(ConfigService);
-  const port = config.get<number>('port') || 4000;
+  const port = config.get<number>('PORT') || 4000;
   app.useGlobalPipes(new ValidationPipe());
   app.use(cors());
   app.useStaticAssets(join(__dirname, '..', 'uploads'), {
