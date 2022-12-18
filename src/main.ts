@@ -3,7 +3,6 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { CommonModule } from './services/common.module';
-import * as cors from 'cors';
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 async function bootstrap() {
@@ -11,7 +10,7 @@ async function bootstrap() {
   const config = app.select(CommonModule).get(ConfigService);
   const port = config.get<number>('PORT');
   app.useGlobalPipes(new ValidationPipe());
-  app.use(cors());
+
   app.useStaticAssets(join(__dirname, '..', 'uploads'), {
     prefix: '/uploads/',
   });

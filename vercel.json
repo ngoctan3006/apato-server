@@ -1,11 +1,5 @@
 {
     "version": 2,
-    "env": {
-        "DATABASE_URL": "postgres://postgres1:1qWQy0tibVcRnFA8hl6N0LlxmXdLsHKp@dpg-ce1j3so2i3mkucf1cj30-a.singapore-postgres.render.com/apato_yx4s",
-        "JWT_SECRET": "apato-token",
-        "JWT_ACCESS_EXPIRED": "48h",
-        "JWT_REFRESH_EXPIRED": "7d"
-    },
     "builds": [
         {
             "src": "src/main.ts",
