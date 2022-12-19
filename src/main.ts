@@ -11,9 +11,11 @@ async function bootstrap() {
   const config = app.select(CommonModule).get(ConfigService);
   const port = config.get<number>('PORT');
   app.useGlobalPipes(new ValidationPipe());
-  app.use(cors({
-    origin: '*',
-  }))
+  app.use(
+    cors({
+      origin: '*',
+    }),
+  );
   app.useStaticAssets(join(__dirname, '..', 'uploads'), {
     prefix: '/uploads/',
   });
