@@ -57,9 +57,7 @@ export class PostsController {
   }
 
   @Get(':id')
-  async getPostInfo(
-    @Param('id') post_id: number,
-  ): Promise<apato & { creator: user; comments: apato_comment[] }> {
+  async getPostInfo(@Param('id') post_id: number) {
     return await this.postsService.getPostInfo(+post_id);
   }
 

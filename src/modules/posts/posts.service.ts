@@ -33,9 +33,7 @@ export class PostsService {
     return new_post;
   }
 
-  async getPostInfo(
-    post_id: number,
-  ): Promise<apato & { creator: user; comments: apato_comment[] }> {
+  async getPostInfo(post_id: number) {
     const rating = await this.prisma.apato_comment.aggregate({
       _avg: {
         rating: true,
@@ -54,7 +52,15 @@ export class PostsService {
       },
       include: {
         creator: true,
-        comments: true,
+        comments: {
+          include: {
+            user: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
       },
     });
     delete response.creator.password;
