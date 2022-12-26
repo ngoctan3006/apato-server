@@ -20,4 +20,8 @@ export class PostFilter {
   @IsOptional()
   @IsString()
   searchValue: string;
+
+  @IsOptional()
+  @IsString()
+  district: string;
 }

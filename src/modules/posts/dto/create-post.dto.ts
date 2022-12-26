@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, IsOptional } from 'class-validator';
 export class CreatePostDto {
   @IsNotEmpty()
   @IsString()
@@ -17,4 +17,8 @@ export class CreatePostDto {
 
   @IsNotEmpty()
   area: number;
+
+  @IsOptional()
+  @IsString()
+  district: string;
 }

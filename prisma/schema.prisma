@@ -41,6 +41,7 @@ model apato {
   area         Float
   price        Int
   detail       String
+  district     String?
   total_rating Float           @default(0)
   comments     apato_comment[]
   user_id      Int

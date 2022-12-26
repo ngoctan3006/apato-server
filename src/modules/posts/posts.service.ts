@@ -24,6 +24,7 @@ export class PostsService {
         image: filePaths,
         address: input.address,
         area: +input.area,
+        district: input.district ? input.district : null,
       },
       include: {
         creator: true,
@@ -83,6 +84,12 @@ export class PostsService {
     } else if (filter.areaEnd) {
       findFilter['area'] = { lte: filter.areaEnd };
     }
+    if (!!filter.district) {
+      findFilter['district'] = {
+        contains: filter.district,
+        mode: 'insensitive',
+      };
+    }
     if (filter.searchValue) {
       findFilter['OR'] = [
         {
@@ -98,7 +105,9 @@ export class PostsService {
       ];
     }
     return await this.prisma.apato.findMany({
-      where: findFilter,
+      where: {
+        district: findFilter,
+      },
       orderBy: {
         created_at: 'desc',
       },
