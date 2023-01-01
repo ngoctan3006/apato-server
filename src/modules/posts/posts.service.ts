@@ -70,6 +70,7 @@ export class PostsService {
 
   async getAllPosts(filter: PostFilter): Promise<apato[]> {
     const findFilter = {};
+    const { pageIndex, pageSize } = filter;
     if (filter.priceStart && filter.priceEnd) {
       findFilter['price'] = { gte: filter.priceStart, lte: filter.priceEnd };
     } else if (filter.priceStart) {
@@ -111,6 +112,8 @@ export class PostsService {
       orderBy: {
         created_at: 'desc',
       },
+      take: pageSize,
+      skip: (pageIndex - 1) * pageSize,
       include: {
         creator: {
           select: {

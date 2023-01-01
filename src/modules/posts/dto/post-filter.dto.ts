@@ -3,6 +3,14 @@ import { IsInt, IsNumber, IsOptional, IsString } from 'class-validator';
 export class PostFilter {
   @IsOptional()
   @IsInt()
+  pageSize: number;
+
+  @IsOptional()
+  @IsInt()
+  pageIndex: number;
+
+  @IsOptional()
+  @IsInt()
   priceStart: number;
 
   @IsOptional()
