@@ -24,6 +24,8 @@ export class PostsService {
         image: filePaths,
         address: input.address,
         area: +input.area,
+        room_count: +input.room_count,
+        university: input.university ? input.university : null,
         district: input.district ? input.district : null,
       },
       include: {
@@ -91,6 +93,12 @@ export class PostsService {
         mode: 'insensitive',
       };
     }
+    if (!!filter.university) {
+      findFilter['university'] = {
+        contains: filter.university,
+        mode: 'insensitive',
+      };
+    }
     if (filter.searchValue) {
       findFilter['OR'] = [
         {
@@ -107,7 +115,8 @@ export class PostsService {
     }
     return await this.prisma.apato.findMany({
       where: {
-        district: findFilter,
+        status: 1,
+        ...findFilter,
       },
       orderBy: {
         created_at: 'desc',
@@ -125,6 +134,21 @@ export class PostsService {
           },
         },
       },
+    });
+  }
+
+  async getAllPendingPosts(filter: PostFilter): Promise<apato[]> {
+    const { pageIndex, pageSize } = filter;
+
+    return await this.prisma.apato.findMany({
+      where: {
+        status: 0,
+      },
+      orderBy: {
+        created_at: 'desc',
+      },
+      take: pageSize,
+      skip: (pageIndex - 1) * pageSize,
     });
   }
 

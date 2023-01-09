@@ -22,4 +22,10 @@ export class AdminController {
   async getAllUsers(@Body() input: SearchUserDto) {
     return await this.adminService.getAllUsers(input);
   }
+
+  @Auth('ADMIN')
+  @Put('approve/:id')
+  async approvePost(@Param('id') postId: string) {
+    return await this.adminService.approvePost(+postId);
+  }
 }

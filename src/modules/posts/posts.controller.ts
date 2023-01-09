@@ -14,7 +14,7 @@ import {
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { CurrentUser } from 'src/decorators/current-user.decorator';
-import { apato, user, apato_comment } from '@prisma/client';
+import { apato, user } from '@prisma/client';
 import { Auth } from 'src/decorators/authentication.decorator';
 import { PostFilter } from './dto/post-filter.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
@@ -68,6 +68,12 @@ export class PostsController {
   @Post('all')
   async getAllPosts(@Body() filter: PostFilter): Promise<apato[]> {
     return await this.postsService.getAllPosts(filter);
+  }
+
+  @Auth('SELLER', 'ADMIN')
+  @Post('pending')
+  async getPendingPosts(@Body() filter: PostFilter): Promise<apato[]> {
+    return await this.postsService.getAllPendingPosts(filter);
   }
 
   @Put(':id')

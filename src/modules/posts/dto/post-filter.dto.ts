@@ -32,4 +32,8 @@ export class PostFilter {
   @IsOptional()
   @IsString()
   district: string;
+
+  @IsOptional()
+  @IsString()
+  university: string;
 }

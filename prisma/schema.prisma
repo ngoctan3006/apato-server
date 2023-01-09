@@ -41,7 +41,11 @@ model apato {
   area         Float
   price        Int
   detail       String
+  room_count   Int
   district     String?
+  university   String?
+  tags         String[]
+  status       Int             @default(0)
   total_rating Float           @default(0)
   comments     apato_comment[]
   user_id      Int

@@ -67,4 +67,26 @@ export class AdminService {
       },
     });
   }
+
+  async approvePost(postId: number) {
+    const post = await this.prisma.apato.findUnique({
+      where: {
+        id: postId,
+      },
+    });
+    if (!post) {
+      throw new NotFoundException('POST WAS NOT FOUND');
+    }
+    if (post.status === 1) {
+      throw new BadRequestException('POST ALREADY APPROVED');
+    }
+    return await this.prisma.apato.update({
+      where: {
+        id: postId,
+      },
+      data: {
+        status: 1,
+      },
+    });
+  }
 }
