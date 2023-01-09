@@ -21,7 +21,7 @@ export class CreatePostDto {
   @IsString()
   detail: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsNumberString()
   room_count: number;
 
