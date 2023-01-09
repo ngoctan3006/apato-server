@@ -89,31 +89,29 @@ export class PostsController {
 
   @Put(':id')
   @Auth('SELLER')
-  @UseInterceptors(
-    FilesInterceptor('file', 4, {
-      storage: diskStorage({
-        destination: './uploads',
-        filename: (req, file, callback) => {
-          const uniqueSuffix =
-            Date.now() + '-' + Math.round(Math.random() * 1e9);
-          const ext = extname(file.originalname);
-          const filename = uniqueSuffix + ext;
-          callback(null, filename);
-        },
-      }),
-    }),
-  )
-  @Auth()
+  @UseInterceptors(FilesInterceptor('file', 4))
   async updatePost(
     @Param('id') postId: string,
     @Body() updatePostDto: UpdatePostDto,
     @CurrentUser() user: user,
     @UploadedFiles() files: Express.Multer.File[],
   ): Promise<apato> {
+    // const filePaths = [];
+    // files.forEach((file) => {
+    //   filePaths.push('localhost:4000/' + file.path);
+    // });
+    const cloudFiles = await Promise.allSettled(
+      files.map((file) => this.cloundary.uploadFile(file)),
+    );
     const filePaths = [];
-    files.forEach((file) => {
-      filePaths.push('localhost:4000/' + file.path);
-    });
+    for (let i = 0; i < cloudFiles.length; i++) {
+      if (cloudFiles[i].status === 'fulfilled') {
+        const successFile = cloudFiles[
+          i
+        ] as PromiseFulfilledResult<UploadApiResponse>;
+        filePaths.push(successFile.value.url);
+      }
+    }
     return await this.postsService.updatePost(
       +postId,
       updatePostDto,
