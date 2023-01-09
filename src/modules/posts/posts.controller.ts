@@ -10,6 +10,7 @@ import {
   Param,
   UploadedFiles,
   UseInterceptors,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -70,10 +71,20 @@ export class PostsController {
     return await this.postsService.getAllPosts(filter);
   }
 
-  @Auth('SELLER', 'ADMIN')
+  @Auth('ADMIN')
   @Post('pending')
   async getPendingPosts(@Body() filter: PostFilter): Promise<apato[]> {
     return await this.postsService.getAllPendingPosts(filter);
+  }
+
+  @Auth('SELLER')
+  @Post('get-my-posts/:status')
+  async getMyPosts(
+    @Body() filter: PostFilter,
+    @CurrentUser() user: user,
+    @Param('status') status: number,
+  ): Promise<apato[]> {
+    return await this.postsService.getPostsByUser(user.id, filter, +status);
   }
 
   @Put(':id')

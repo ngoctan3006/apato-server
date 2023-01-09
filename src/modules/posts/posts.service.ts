@@ -152,6 +152,26 @@ export class PostsService {
     });
   }
 
+  async getPostsByUser(
+    user_id: number,
+    filter: PostFilter,
+    status: number,
+  ): Promise<apato[]> {
+    const { pageIndex, pageSize } = filter;
+
+    return await this.prisma.apato.findMany({
+      where: {
+        user_id,
+        status,
+      },
+      orderBy: {
+        created_at: 'desc',
+      },
+      take: pageSize,
+      skip: (pageIndex - 1) * pageSize,
+    });
+  }
+
   async updatePost(
     postId: number,
     updatePostDto: UpdatePostDto,
