@@ -87,13 +87,13 @@ export class PostsService {
     } else if (filter.areaEnd) {
       findFilter['area'] = { lte: filter.areaEnd };
     }
-    if (!!filter.district) {
+    if (!!filter.district && filter.district !== 'all') {
       findFilter['district'] = {
         contains: filter.district,
         mode: 'insensitive',
       };
     }
-    if (!!filter.university) {
+    if (!!filter.university && filter.university !== 'all') {
       findFilter['university'] = {
         contains: filter.university,
         mode: 'insensitive',
