@@ -10,7 +10,6 @@ import {
   Param,
   UploadedFiles,
   UseInterceptors,
-  ParseIntPipe,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -19,8 +18,6 @@ import { apato, user } from '@prisma/client';
 import { Auth } from 'src/decorators/authentication.decorator';
 import { PostFilter } from './dto/post-filter.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { UploadApiResponse } from 'cloudinary';
 
@@ -38,10 +35,6 @@ export class PostsController {
     @CurrentUser() user: user,
     @UploadedFiles() files: Express.Multer.File[],
   ): Promise<apato & { creator: user }> {
-    // const filePaths = [];
-    // files.forEach((file) => {
-    //   filePaths.push('https://apato-server.herokuapp.com/' + file.path);
-    // });
     const cloudFiles = await Promise.allSettled(
       files.map((file) => this.cloundary.uploadFile(file)),
     );

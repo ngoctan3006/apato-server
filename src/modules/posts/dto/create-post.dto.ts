@@ -30,6 +30,10 @@ export class CreatePostDto {
   area: number;
 
   @IsOptional()
+  @IsString({ each: true })
+  tags: string[];
+
+  @IsOptional()
   @IsString()
   district: string;
 

@@ -3,7 +3,7 @@ import { PostFilter } from './dto/post-filter.dto';
 import { PrismaService } from './../../services/prisma.service';
 import { Injectable, ForbiddenException } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
-import { apato, user, ROLE, apato_comment } from '@prisma/client';
+import { apato, user, ROLE } from '@prisma/client';
 import { CommentPost } from './dto/comment.dto';
 
 @Injectable()
@@ -24,6 +24,7 @@ export class PostsService {
         image: filePaths,
         address: input.address,
         area: +input.area,
+        tags: input.tags,
         room_count: +input.room_count,
         university: input.university ? input.university : null,
         district: input.district ? input.district : null,
