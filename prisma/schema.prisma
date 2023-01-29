@@ -44,7 +44,7 @@ model apato {
   room_count   Int
   district     String?
   university   String?
-  tags         String[]
+  tags         Int[]
   status       Int             @default(0)
   total_rating Float           @default(0)
   comments     apato_comment[]

@@ -36,4 +36,8 @@ export class PostFilter {
   @IsOptional()
   @IsString()
   university: string;
+
+  @IsOptional()
+  @IsString({ each: true })
+  tags: number[];
 }

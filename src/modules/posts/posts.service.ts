@@ -24,7 +24,7 @@ export class PostsService {
         image: filePaths,
         address: input.address,
         area: +input.area,
-        tags: input.tags,
+        tags: input.tags.map((tag) => Number(tag)),
         room_count: +input.room_count,
         university: input.university ? input.university : null,
         district: input.district ? input.district : null,
@@ -113,6 +113,11 @@ export class PostsService {
           },
         },
       ];
+    }
+    if (filter.tags && filter.tags.length > 0) {
+      findFilter['tags'] = {
+        hasEvery: filter.tags.map((tag) => Number(tag)),
+      };
     }
     return await this.prisma.apato.findMany({
       where: {

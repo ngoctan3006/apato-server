@@ -31,7 +31,7 @@ export class CreatePostDto {
 
   @IsOptional()
   @IsString({ each: true })
-  tags: string[];
+  tags: number[];
 
   @IsOptional()
   @IsString()
