@@ -1,1 +1,1 @@
-web: npx prisma generate && npm run start:prod
+web: rm -rf prisma/migrations && npx prisma generate && npm run start:prod
