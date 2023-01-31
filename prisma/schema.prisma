@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgres://postgres1:rJmSUaEdnygPfxtpvECh05XPXHMW5T6l@dpg-cefi875a499e21qkeb60-a.singapore-postgres.render.com/apato_v8s2"
+  url      = env("DATABASE_URL")
 }
 
 model user {
@@ -44,12 +44,12 @@ model apato {
   room_count   Int
   district     String?
   university   String?
-  tags         Int[]
   status       Int             @default(0)
   total_rating Float           @default(0)
   comments     apato_comment[]
   user_id      Int
   created_at   DateTime        @default(now())
+  tags         apato_tags[]
 }
 
 model apato_comment {
@@ -73,4 +73,21 @@ model report_request {
   user_id          Int
   checked          Boolean       @default(false)
   created_at       DateTime      @default(now())
+}
+
+model tag {
+  id           Int          @id @default(autoincrement())
+  tag_name     String       @unique
+  created_at   DateTime     @default(now())
+  search_count Int?         @default(0)
+  apatos       apato_tags[]
+}
+
+model apato_tags {
+  apato    apato @relation(fields: [apato_id], references: [id])
+  apato_id Int
+  tag      tag   @relation(fields: [tag_id], references: [id])
+  tag_id   Int
+
+  @@unique([tag_id, apato_id])
 }

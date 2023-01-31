@@ -7,6 +7,7 @@ import { PostsModule } from './modules/posts/posts.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { ReportModule } from './modules/report/report.module';
 import { CloudinaryModule } from './modules/cloudinary/cloudinary.module';
+import { TagsModule } from './modules/tags/tags.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { CloudinaryModule } from './modules/cloudinary/cloudinary.module';
     AdminModule,
     ReportModule,
     CloudinaryModule,
+    TagsModule,
   ],
   providers: [AppService],
 })

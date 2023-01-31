@@ -30,7 +30,6 @@ export class CreatePostDto {
   area: number;
 
   @IsOptional()
-  @IsString({ each: true })
   tags: number[];
 
   @IsOptional()
