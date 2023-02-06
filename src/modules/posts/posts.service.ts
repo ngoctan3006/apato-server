@@ -67,10 +67,18 @@ export class PostsService {
             },
           },
         },
+        tags: {
+          select: {
+            tag: true,
+          },
+        },
       },
     });
     delete response.creator.password;
-    return response;
+    return {
+      ...response,
+      tags: response.tags.map((tag) => tag.tag),
+    };
   }
 
   async getAllPosts(filter: PostFilter): Promise<apato[]> {

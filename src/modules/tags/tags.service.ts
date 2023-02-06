@@ -23,6 +23,8 @@ export class TagsService {
   }
 
   async getAllTags() {
-    return await this.prisma.tag.findMany();
+    return await this.prisma.tag.findMany({
+      orderBy: { created_at: 'desc' },
+    });
   }
 }

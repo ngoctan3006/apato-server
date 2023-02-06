@@ -12,7 +12,6 @@ export class TagsController {
     return await this.tagsService.createNewTag(createTagDto);
   }
 
-  @Auth()
   @Get()
   async getAllTags() {
     return await this.tagsService.getAllTags();
