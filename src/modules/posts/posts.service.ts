@@ -177,7 +177,7 @@ export class PostsService {
 
     const data = await this.prisma.apato.findMany({
       where: {
-        status: 0,
+        status: { lte: 0 },
       },
       orderBy: {
         created_at: 'desc',

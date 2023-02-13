@@ -89,10 +89,6 @@ export class PostsController {
     @CurrentUser() user: user,
     @UploadedFiles() files: Express.Multer.File[],
   ): Promise<apato> {
-    // const filePaths = [];
-    // files.forEach((file) => {
-    //   filePaths.push('localhost:4000/' + file.path);
-    // });
     const cloudFiles = await Promise.allSettled(
       files.map((file) => this.cloundary.uploadFile(file)),
     );

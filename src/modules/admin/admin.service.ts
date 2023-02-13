@@ -89,4 +89,26 @@ export class AdminService {
       },
     });
   }
+
+  async rejectPost(postId: number) {
+    const post = await this.prisma.apato.findUnique({
+      where: {
+        id: postId,
+      },
+    });
+    if (!post) {
+      throw new NotFoundException('POST WAS NOT FOUND');
+    }
+    if (post.status === 2) {
+      throw new BadRequestException('POST ALREADY REJECTED');
+    }
+    return await this.prisma.apato.update({
+      where: {
+        id: postId,
+      },
+      data: {
+        status: -1,
+      },
+    });
+  }
 }

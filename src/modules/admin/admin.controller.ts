@@ -28,4 +28,10 @@ export class AdminController {
   async approvePost(@Param('id') postId: string) {
     return await this.adminService.approvePost(+postId);
   }
+
+  @Auth('ADMIN')
+  @Put('reject/:id')
+  async rejectPost(@Param('id') postId: string) {
+    return await this.adminService.rejectPost(+postId);
+  }
 }
