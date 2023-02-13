@@ -158,7 +158,7 @@ export class PostsService {
         tags: true,
       },
     });
-    const allTags = filter.tags.map((tag) => +tag);
+    const allTags = filter.tags ? filter.tags.map((tag) => +tag) : [];
     const data = apatos.filter((item) => {
       const itemTags = item.tags.map((tag) => tag.tag_id);
       if (allTags.every((tag) => itemTags.includes(tag))) {
