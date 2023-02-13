@@ -28,6 +28,16 @@ export class UserService {
     };
   }
 
+  async getMe(userId: number) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+    delete user.password;
+    return user;
+  }
+
   async updateProfile(userId: number, updateDto: UpdateDto) {
     const updateData = {};
     const { name, phone, address } = updateDto;
