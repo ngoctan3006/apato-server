@@ -81,7 +81,7 @@ export class PostsService {
     };
   }
 
-  async getAllPosts(filter: PostFilter): Promise<apato[]> {
+  async getAllPosts(filter: PostFilter) {
     const findFilter = {};
     const { pageIndex, pageSize } = filter;
     if (filter.priceStart && filter.priceEnd) {
@@ -161,19 +161,23 @@ export class PostsService {
       },
     });
     const allTags = filter.tags.map((tag) => +tag);
-    return apatos.filter((item) => {
+    const data = apatos.filter((item) => {
       const itemTags = item.tags.map((tag) => tag.tag_id);
       if (allTags.every((tag) => itemTags.includes(tag))) {
         return true;
       }
       return false;
     });
+    return {
+      data,
+      totalPages: Math.ceil(data.length / pageSize),
+    };
   }
 
-  async getAllPendingPosts(filter: PostFilter): Promise<apato[]> {
+  async getAllPendingPosts(filter: PostFilter) {
     const { pageIndex, pageSize } = filter;
 
-    return await this.prisma.apato.findMany({
+    const data = await this.prisma.apato.findMany({
       where: {
         status: 0,
       },
@@ -183,16 +187,16 @@ export class PostsService {
       take: pageSize,
       skip: (pageIndex - 1) * pageSize,
     });
+    return {
+      data,
+      totalPages: Math.ceil(data.length / pageSize),
+    };
   }
 
-  async getPostsByUser(
-    user_id: number,
-    filter: PostFilter,
-    status: number,
-  ): Promise<apato[]> {
+  async getPostsByUser(user_id: number, filter: PostFilter, status: number) {
     const { pageIndex, pageSize } = filter;
 
-    return await this.prisma.apato.findMany({
+    const data = await this.prisma.apato.findMany({
       where: {
         user_id,
         status,
@@ -203,6 +207,10 @@ export class PostsService {
       take: pageSize,
       skip: (pageIndex - 1) * pageSize,
     });
+    return {
+      data,
+      totalPages: Math.ceil(data.length / pageSize),
+    };
   }
 
   async updatePost(

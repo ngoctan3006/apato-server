@@ -60,13 +60,13 @@ export class PostsController {
   }
 
   @Post('all')
-  async getAllPosts(@Body() filter: PostFilter): Promise<apato[]> {
+  async getAllPosts(@Body() filter: PostFilter) {
     return await this.postsService.getAllPosts(filter);
   }
 
   @Auth('ADMIN')
   @Post('pending')
-  async getPendingPosts(@Body() filter: PostFilter): Promise<apato[]> {
+  async getPendingPosts(@Body() filter: PostFilter) {
     return await this.postsService.getAllPendingPosts(filter);
   }
 
@@ -76,7 +76,7 @@ export class PostsController {
     @Body() filter: PostFilter,
     @CurrentUser() user: user,
     @Param('status') status: number,
-  ): Promise<apato[]> {
+  ) {
     return await this.postsService.getPostsByUser(user.id, filter, +status);
   }
 
