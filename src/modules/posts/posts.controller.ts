@@ -118,6 +118,7 @@ export class PostsController {
     return await this.postsService.deletePost(user, +postId);
   }
 
+  @Auth()
   @Post('/comment/:id')
   async commentPost(
     @CurrentUser() user: user,
