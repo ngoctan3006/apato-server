@@ -35,7 +35,7 @@ enum ROLE {
 
 model apato {
   id           Int             @id @default(autoincrement())
-  creator      user            @relation(fields: [user_id], references: [id])
+  creator      user            @relation(fields: [user_id], references: [id], onDelete: Cascade)
   title        String
   address      String
   image        String[]
@@ -57,7 +57,7 @@ model apato_comment {
   id             Int              @id @default(autoincrement())
   apato          apato?           @relation(fields: [apatoId], references: [id], onDelete: Cascade)
   apatoId        Int?
-  user           user?            @relation(fields: [userId], references: [id])
+  user           user?            @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId         Int?
   comment        String
   rating         Int
@@ -68,9 +68,9 @@ model apato_comment {
 
 model report_request {
   id               Int           @id @default(autoincrement())
-  comment          apato_comment @relation(fields: [apato_comment_id], references: [id])
+  comment          apato_comment @relation(fields: [apato_comment_id], references: [id], onDelete: Cascade)
   apato_comment_id Int
-  reporter         user          @relation(fields: [user_id], references: [id])
+  reporter         user          @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id          Int
   checked          Boolean       @default(false)
   created_at       DateTime      @default(now())
@@ -85,9 +85,9 @@ model tag {
 }
 
 model apato_tags {
-  apato    apato @relation(fields: [apato_id], references: [id])
+  apato    apato @relation(fields: [apato_id], references: [id], onDelete: Cascade)
   apato_id Int
-  tag      tag   @relation(fields: [tag_id], references: [id])
+  tag      tag   @relation(fields: [tag_id], references: [id], onDelete: Cascade)
   tag_id   Int
 
   @@unique([tag_id, apato_id])
