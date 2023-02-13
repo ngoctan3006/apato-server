@@ -184,6 +184,19 @@ export class PostsService {
       },
       take: pageSize,
       skip: (pageIndex - 1) * pageSize,
+      include: {
+        creator: {
+          select: {
+            id: true,
+            name: true,
+            phone: true,
+            address: true,
+            email: true,
+            reputation: true,
+          },
+        },
+        tags: true,
+      },
     });
     const total = await this.prisma.apato.count({
       where: {
