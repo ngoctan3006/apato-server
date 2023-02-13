@@ -144,8 +144,6 @@ export class PostsService {
       orderBy: {
         created_at: 'desc',
       },
-      take: pageSize,
-      skip: (pageIndex - 1) * pageSize,
       include: {
         creator: {
           select: {
@@ -169,7 +167,7 @@ export class PostsService {
       return false;
     });
     return {
-      data,
+      data: data.slice((pageIndex - 1) * pageSize, pageIndex * pageSize),
       totalPages: Math.ceil(data.length / pageSize),
     };
   }
@@ -187,9 +185,14 @@ export class PostsService {
       take: pageSize,
       skip: (pageIndex - 1) * pageSize,
     });
+    const total = await this.prisma.apato.count({
+      where: {
+        status: 0,
+      },
+    });
     return {
       data,
-      totalPages: Math.ceil(data.length / pageSize),
+      totalPages: Math.ceil(total / pageSize),
     };
   }
 
@@ -207,9 +210,15 @@ export class PostsService {
       take: pageSize,
       skip: (pageIndex - 1) * pageSize,
     });
+    const total = await this.prisma.apato.count({
+      where: {
+        user_id,
+        status,
+      },
+    });
     return {
       data,
-      totalPages: Math.ceil(data.length / pageSize),
+      totalPages: Math.ceil(total / pageSize),
     };
   }
 
