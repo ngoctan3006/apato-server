@@ -29,7 +29,7 @@ export class PostsController {
   ) {}
   @Auth('SELLER')
   @Post()
-  @UseInterceptors(FilesInterceptor('file', 4))
+  @UseInterceptors(FilesInterceptor('file', 10))
   async createPost(
     @Body() createPostDto: CreatePostDto,
     @CurrentUser() user: user,

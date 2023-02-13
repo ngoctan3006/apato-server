@@ -1,9 +1,4 @@
-import {
-  IsNotEmpty,
-  IsString,
-  IsOptional,
-  IsNumberString,
-} from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 export class CreatePostDto {
   @IsNotEmpty()
   @IsString()
@@ -14,23 +9,23 @@ export class CreatePostDto {
   address: string;
 
   @IsNotEmpty()
-  @IsNumberString()
-  price: number;
+  @IsString()
+  price: string;
 
   @IsNotEmpty()
   @IsString()
   detail: string;
 
   @IsOptional()
-  @IsNumberString()
-  room_count: number;
+  @IsString()
+  room_count: string;
 
   @IsNotEmpty()
-  @IsNumberString()
-  area: number;
+  @IsString()
+  area: string;
 
   @IsOptional()
-  tags: number[];
+  tags: string[];
 
   @IsOptional()
   @IsString()
