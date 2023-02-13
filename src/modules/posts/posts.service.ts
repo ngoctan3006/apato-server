@@ -139,7 +139,7 @@ export class PostsService {
         },
       });
     }
-    return await this.prisma.apato.findMany({
+    const apatos = await this.prisma.apato.findMany({
       where: findFilter,
       orderBy: {
         created_at: 'desc',
@@ -154,9 +154,19 @@ export class PostsService {
             phone: true,
             address: true,
             email: true,
+            reputation: true,
           },
         },
+        tags: true,
       },
+    });
+    const allTags = filter.tags.map((tag) => +tag);
+    return apatos.filter((item) => {
+      const itemTags = item.tags.map((tag) => tag.tag_id);
+      if (allTags.every((tag) => itemTags.includes(tag))) {
+        return true;
+      }
+      return false;
     });
   }
 
@@ -280,6 +290,22 @@ export class PostsService {
         rating: true,
       },
     });
+    const apato = await this.prisma.apato.findUnique({
+      where: { id: postId },
+      include: { creator: true },
+    });
+    const seller_reputation = await this.prisma.apato_comment.aggregate({
+      where: {
+        apato: { user_id: apato.user_id },
+      },
+      _avg: {
+        rating: true,
+      },
+    });
+    await this.prisma.user.update({
+      where: { id: apato.user_id },
+      data: { reputation: seller_reputation._avg.rating },
+    });
     return await this.prisma.apato.update({
       where: {
         id: postId,
@@ -296,6 +322,16 @@ export class PostsService {
                 name: true,
               },
             },
+          },
+        },
+        creator: {
+          select: {
+            id: true,
+            name: true,
+            phone: true,
+            address: true,
+            email: true,
+            reputation: true,
           },
         },
       },
